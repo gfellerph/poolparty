@@ -1,10 +1,7 @@
-import store from 'src/store';
-import router from 'src/router';
-
 export default {
   state: {
     loggedIn: false,
-    user: null
+    user: null,
   },
   mutations: {
     LOGIN: (state, action) => {
@@ -12,9 +9,9 @@ export default {
       state.user = action.user;
     },
 
-    LOGOUT: (state, action) => {
+    LOGOUT: (state) => {
       state.loggedIn = false;
       state.user = null;
-    }
-  }
-}
+    },
+  },
+};
