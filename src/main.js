@@ -1,8 +1,6 @@
-import Vue from 'vue';
-import App from './App';
+import App from 'src/App';
+import router from 'config/router';
 
-/* eslint-disable no-new */
-new Vue({
-  el: 'body',
-  components: { App },
-});
+// Vue.use(validator);
+
+router.start(App, '#app');
