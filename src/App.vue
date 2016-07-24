@@ -1,16 +1,19 @@
-<template>
-  <div>
-    <login></login>
-  </div>
+<template lang="pug">
+  div
+    login
+    navigation
+    router-view
 </template>
 
 <script>
 import Login from 'components/auth/login';
+import Navigation from 'components/shared/navigation';
 import store from 'config/store';
 
 export default {
   components: {
     Login,
+    Navigation,
   },
   store,
 };
