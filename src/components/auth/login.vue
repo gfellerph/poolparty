@@ -1,26 +1,44 @@
 <template lang="pug">
   div
-    button(v-if="!user" @click="login") login
-    button(v-if="user" @click="logout") logout
-    p(v-if="user") Hoi {{user.displayName}}
-    p.error(v-if="err") {{err}}
+    auth-guard
+
+      div(slot="auth")
+        p Hoi {{user.displayName}}
+        p
+          img(v-bind:src="user.photoURL")
+        button(@click="logout") logout
+
+      div(slot="no-auth")
+        p Login with google
+        spinner(v-if="isLoading")
+        button(@click="login") login
+        p.error(v-if="err") {{err}}
 </template>
 
 <script>
   import firebase from 'config/firebase';
   import store from 'config/store';
   import User from 'models/user';
+  import Spinner from 'components/atoms/spinner';
+  import AuthGuard from 'components/auth/auth-guard';
 
   export default {
     data() {
       return {
         err: '',
+        isLoading: false,
       };
     },
     created() {
+      this.isLoading = true;
+
+      // Listen to auth changes at firebase
       firebase
         .auth()
         .onAuthStateChanged(user => {
+          this.isLoading = false;
+
+          // Dispatch according to auth state
           if (user) {
             store.dispatch('LOGIN', {
               user: new User(user),
@@ -33,11 +51,16 @@
     methods: {
       login() {
         const provider = new firebase.auth.GoogleAuthProvider();
+        this.isLoading = true;
 
         firebase
           .auth()
           .signInWithPopup(provider)
+          .then(() => {
+            this.isLoading = false;
+          })
           .catch(err => {
+            this.isLoading = false;
             this.err = err;
           });
       },
@@ -46,6 +69,10 @@
           .auth()
           .signOut();
       },
+    },
+    components: {
+      Spinner,
+      AuthGuard,
     },
     vuex: {
       getters: {
