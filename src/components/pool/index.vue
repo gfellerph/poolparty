@@ -18,6 +18,7 @@
   let resourceRef;
 
   export default {
+    name: 'resource-pool',
     created() {
       resourceRef = firebase
         .database()
