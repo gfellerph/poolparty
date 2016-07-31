@@ -1,6 +1,6 @@
 <template lang="pug">
   ul.resources
-    li(v-for="resource in resources")
+    li(v-for="resource in filteredResources")
       span {{resource.name}}, {{resource.website}}, {{resource.location}}
 </template>
 
@@ -8,22 +8,19 @@
   import resourceIndex from 'components/pool/resource-index';
 
   export default {
+    computed: {
+      filteredResources() {
+        if (!this.filter) return this.resources;
+
+        const res = resourceIndex.search(this.filter);
+
+        return res.map(r => this.resources.filter(resource => resource.key === r.ref)[0]);
+      },
+    },
     vuex: {
       getters: {
-        resources: state => {
-          const { resources, filter } = state.pool;
-
-          if (!filter) return resources;
-
-          const res = resourceIndex.search(filter);
-
-          return resources.filter(resource => {
-            for (let i = 0; i < res.length; i++) {
-              if (resource.key === res[i].key) return true;
-            }
-            return false;
-          });
-        },
+        filter: state => state.pool.filter,
+        resources: state => state.pool.resources,
       },
     },
   };
