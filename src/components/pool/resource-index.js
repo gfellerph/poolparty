@@ -1,8 +1,19 @@
-import lunr from 'lunr';
+import elasticlunr from 'elasticlunr';
 
-export default lunr(function index() {
-  this.field('name', { boost: 100 });
-  this.field('location', { boost: 10 });
-  this.field('website');
-  this.ref('key');
+elasticlunr.clearStopWords();
+
+export const index = elasticlunr(function index() {
+  this.addField('name');
+  this.addField('location');
+  this.addField('website');
+  this.setRef('key');
 });
+
+export const booster = {
+  fields: {
+    name: { boost: 3 },
+    location: { boost: 2 },
+    website: { boost: 1 },
+  },
+  expand: true,
+};
