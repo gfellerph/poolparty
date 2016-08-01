@@ -2,7 +2,6 @@
   div
     input(
       v-model="cFilter"
-      debounce="200"
     )
 </template>
 
