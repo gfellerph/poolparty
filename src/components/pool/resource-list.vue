@@ -1,20 +1,28 @@
 <template lang="pug">
   ul.resources
     li(v-for="resource in filteredResources")
-      span {{resource.name}}, {{resource.website}}, {{resource.location}}
+      resource(v-bind:resource="resource")
 </template>
 
 <script>
-  import resourceIndex from 'components/pool/resource-index';
+  import { index, booster } from 'components/pool/resource-index';
+  import Resource from 'components/pool/resource';
 
   export default {
     computed: {
       filteredResources() {
         if (!this.filter) return this.resources;
 
-        const res = resourceIndex.search(this.filter);
+        const res = index.search(this.filter, booster);
 
-        return res.map(r => this.resources.filter(resource => resource.key === r.ref)[0]);
+        return res.map(r => {
+          for (let i = 0; i < this.resources.length; i++) {
+            if (this.resources[i].key === r.ref) {
+              return this.resources[i];
+            }
+          }
+          return r;
+        });
       },
     },
     vuex: {
@@ -22,6 +30,9 @@
         filter: state => state.pool.filter,
         resources: state => state.pool.resources,
       },
+    },
+    components: {
+      Resource,
     },
   };
 </script>
