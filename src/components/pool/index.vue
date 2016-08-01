@@ -14,6 +14,7 @@
   import ResourceFilter from 'components/pool/resource-filter';
   import ResourceList from 'components/pool/resource-list';
   import AuthGuard from 'components/auth/auth-guard';
+  import { index } from 'components/pool/resource-index';
 
   let resourceRef;
 
@@ -26,13 +27,37 @@
 
       resourceRef.on('child_added', snapshot => {
         store.dispatch('ADD_RESOURCE', { resource: snapshot.val() });
+        index.addDoc(snapshot.val());
+      });
+
+      resourceRef.on('child_changed', snapshot => {
+        store.dispatch('UPDATE_RESOURCE', { resource: snapshot.val() });
+        index.updateDoc(snapshot.val());
       });
 
       resourceRef.on('child_removed', snapshot => {
         store.dispatch('REMOVE_RESOURCE', { resource: snapshot.val() });
+        index.removeDoc(snapshot.val());
+      });
+
+      const skillRef = firebase
+        .database()
+        .ref('/skills');
+
+      skillRef.on('child_added', snapshot => {
+        store.dispatch('ADD_SKILL', { skill: snapshot.val() });
+      });
+
+      skillRef.on('child_changed', snapshot => {
+        store.dispatch('UPDATE_SKILL', { skill: snapshot.val() });
+      });
+
+      skillRef.on('child_removed', snapshot => {
+        store.dispatch('REMOVE_SKILL', { skill: snapshot.val() });
       });
     },
     beforeDestroy() {
+      store.dispatch('CLEAR_RESOURCES');
       resourceRef.off();
     },
     components: {
