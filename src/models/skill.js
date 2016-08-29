@@ -1,37 +1,33 @@
 import firebase from 'config/firebase';
+import cuid from 'cuid';
+
+const defaultSkill = {
+  name: '',
+};
 
 export default class Skill {
   constructor(skill) {
-    const { key, name } = skill || {};
-    this.key = key || '';
-    this.name = name || '';
+    this.id = cuid();
+
+    const populated = Object.assign({}, defaultSkill, skill);
+    for (const key in populated) {
+      if (populated.hasOwnProperty(key)) {
+        this[key] = populated[key];
+      }
+    }
   }
 
-  push() {
-    const ref = firebase
-      .database()
-      .ref('/skills')
-      .push();
-
-    ref.set({
-      key: ref.key,
-      name: this.name,
-    });
-
-    return ref;
-  }
-
-  update() {
+  set() {
     return firebase
       .database()
-      .ref(`/skills/${this.key}`)
+      .ref(`/skills/${this.id}`)
       .set(this);
   }
 
-  delete() {
+  remove() {
     return firebase
       .database()
-      .ref(`/skills/${this.key}`)
+      .ref(`/skills/${this.id}`)
       .remove();
   }
 }
