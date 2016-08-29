@@ -1,15 +1,15 @@
 import firebase from 'config/firebase';
 import cuid from 'cuid';
 
-const defaultSkill = {
-  name: '',
-};
-
 export default class Skill {
   constructor(skill) {
     this.id = cuid();
+    this.name = '';
+    this.user = null;
+    this.created = Date.now();
 
-    const populated = Object.assign({}, defaultSkill, skill);
+    // Prefill values from payload
+    const populated = Object.assign({}, this, skill);
     for (const key in populated) {
       if (populated.hasOwnProperty(key)) {
         this[key] = populated[key];
