@@ -17,7 +17,7 @@
 
         return res.map(r => {
           for (let i = 0; i < this.resources.length; i++) {
-            if (this.resources[i].key === r.ref) {
+            if (this.resources[i].id === r.ref) {
               return this.resources[i];
             }
           }

@@ -6,7 +6,7 @@ export const index = elasticlunr(function index() {
   this.addField('name');
   this.addField('location');
   this.addField('website');
-  this.setRef('key');
+  this.setRef('id');
 });
 
 export const booster = {
