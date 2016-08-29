@@ -1,28 +1,33 @@
 import cuid from 'cuid';
-import Skill from 'models/skill';
 import firebase from 'config/firebase';
 
-const defaultResource = {
-  name: '',
-  website: '',
-  location: '',
-  newSkill: new Skill(),
-  chosenSkills: [],
-};
-
 export default class Resource {
-  constructor(resource) {
-    this.id = cuid();
-
-    const populated = Object.assign({}, defaultResource, resource);
-    for (const key in populated) {
-      if (populated.hasOwnProperty(key)) {
-        this[key] = populated[key];
-      }
-    }
+  constructor({
+    id = cuid(),
+    created = Date.now(),
+    name = '',
+    website = '',
+    location = '',
+    user = null,
+    skills = [],
+  } = {}) {
+    this.id = id;
+    this.created = created;
+    this.updated = Date.now();
+    this.name = name;
+    this.website = website;
+    this.location = location;
+    this.user = user;
+    this.skills = [...skills];
   }
 
   set() {
+    if (!this.user) {
+      throw new Error('Resource: User must be specified.');
+    }
+
+    this.updated = Date.now();
+
     return firebase
       .database()
       .ref(`/resources/${this.id}`)
