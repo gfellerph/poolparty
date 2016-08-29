@@ -27,12 +27,20 @@
 
       resourceRef.on('child_added', snapshot => {
         store.dispatch('ADD_RESOURCE', { resource: snapshot.val() });
+        const res = snapshot.val();
+        const filtered = store.state.pool.skills.filter(skill => res.skills.indexOf(skill.id) >= 0);
+        res.joinedSkills = filtered.map(skill => skill.name).join(' ');
+        index.addDoc(res);
         index.addDoc(snapshot.val());
       });
 
       resourceRef.on('child_changed', snapshot => {
         store.dispatch('UPDATE_RESOURCE', { resource: snapshot.val() });
-        index.updateDoc(snapshot.val());
+        index.removeDoc(snapshot.val());
+        const res = snapshot.val();
+        const filtered = store.state.pool.skills.filter(skill => res.skills.indexOf(skill.id) >= 0);
+        res.joinedSkills = filtered.map(skill => skill.name).join(' ');
+        index.addDoc(res);
       });
 
       resourceRef.on('child_removed', snapshot => {
