@@ -1,5 +1,6 @@
 <template lang="pug">
   div
+    label Filter resources
     input(
       v-model="cFilter"
     )
