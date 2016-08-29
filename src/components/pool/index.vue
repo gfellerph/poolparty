@@ -3,6 +3,8 @@
     auth-guard
       div(slot="auth")
         add-resource
+        add-skill
+        hr
         resource-filter
         resource-list
 </template>
@@ -11,12 +13,14 @@
   import firebase from 'config/firebase';
   import store from 'config/store';
   import AddResource from 'components/pool/add-resource';
+  import AddSkill from 'components/pool/add-skill';
   import ResourceFilter from 'components/pool/resource-filter';
   import ResourceList from 'components/pool/resource-list';
   import AuthGuard from 'components/auth/auth-guard';
   import { index } from 'components/pool/resource-index';
 
   let resourceRef;
+  let skillRef;
 
   export default {
     name: 'resource-pool',
@@ -48,7 +52,7 @@
         index.removeDoc(snapshot.val());
       });
 
-      const skillRef = firebase
+      skillRef = firebase
         .database()
         .ref('/skills');
 
@@ -66,13 +70,16 @@
     },
     beforeDestroy() {
       store.dispatch('CLEAR_RESOURCES');
+      store.dispatch('CLEAR_SKILLS');
       resourceRef.off();
+      skillRef.off();
     },
     components: {
       AddResource,
       ResourceList,
       ResourceFilter,
       AuthGuard,
+      AddSkill,
     },
   };
 </script>
