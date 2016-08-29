@@ -3,60 +3,51 @@
     p
       label Name
       input(
-        v-model="name"
+        v-model="resource.name"
       )
 
     p
       label Website
       input(
-        v-model="website"
+        v-model="resource.website"
       )
 
     p
       label Location
       input(
-        v-model="location"
+        v-model="resource.location"
       )
 
     p
       label Add skill
       input(
-        v-model="newSkill.name"
+        v-model="resource.newSkill.name"
         @keyup.enter="addSkill"
       )
       button(@click="addSkill") Add skill
 
     ul
-      li(v-for="skill in selectableSkills")
-        label
+      li(v-for="skill in skills")
+        label(@click="toggleSkill")
           input(
             type="checkbox"
-            v-model="skill.checked"
           )
           span {{skill.name}}
-    p {{selectedSkills | json}}
+    p {{resource.selectedSkills | json}}
     p
       button Cancel
-      button(@click="save") Save
+      button(@click.prevent="save") Save
 </template>
 
 <script>
-  import firebase from 'config/firebase';
   import Skill from 'models/skill';
-
-  const defaultResource = {
-    name: '',
-    website: '',
-    location: '',
-    newSkill: new Skill(),
-    chosenSkills: [],
-  };
+  import Resource from 'models/resource';
 
   export default {
     name: 'add-resource',
 
     data() {
-      return Object.assign({}, defaultResource);
+      return { resource: new Resource() };
     },
 
     computed: {
@@ -71,25 +62,23 @@
 
     methods: {
       save() {
-        const newResourceRef = firebase
-          .database()
-          .ref('/resources')
-          .push();
+        this.resource.set()
+          .catch(err => {
+            throw err;
+          });
+        this.resource = new Resource();
+      },
 
-        // Merge with key
-        const newResource = Object.assign({
-          key: newResourceRef.key,
-        }, this.$data);
-
-        newResourceRef.set(newResource);
-
-        this.$data = Object.assign({}, defaultResource);
+      toggleSkill(e, o) {
+        this.blah = o;
+        this.bla2 = e;
+        debugger;
       },
 
       addSkill() {
-        if (!this.newSkill.name) return;
-        this.newSkill.push();
-        this.newSkill = new Skill();
+        if (!this.resource.newSkill.name) return;
+        this.resource.newSkill.set();
+        this.resource.newSkill = new Skill();
       },
     },
 
