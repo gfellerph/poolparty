@@ -1,12 +1,13 @@
 <template lang="pug">
   ul.resources
     li(v-for="resource in filteredResources")
-      resource(v-bind:resource="resource")
+      resource-view(v-bind:resource="resource")
 </template>
 
 <script>
   import { index, booster } from 'components/pool/resource-index';
-  import Resource from 'components/pool/resource';
+  import ResourceView from 'components/pool/resource';
+  import Resource from 'models/resource';
 
   export default {
     computed: {
@@ -28,11 +29,11 @@
     vuex: {
       getters: {
         filter: state => state.pool.filter,
-        resources: state => state.pool.resources,
+        resources: state => state.pool.resources.map(resource => new Resource(resource)),
       },
     },
     components: {
-      Resource,
+      ResourceView,
     },
   };
 </script>
