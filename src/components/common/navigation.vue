@@ -4,7 +4,7 @@
       li
         a(v-link="{path: '/', exact: true}") Home
       li
-        a(v-link="{path: '/pool'}") Resource Pool
+        a(v-link="{path: '/resources'}") Resource Pool
 </template>
 
 <style lang="scss">

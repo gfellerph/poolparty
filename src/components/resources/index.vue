@@ -4,6 +4,7 @@
       div(slot="auth")
         add-resource
         add-skill
+        add-pool
         hr
         resource-filter
         resource-list
@@ -12,12 +13,13 @@
 <script>
   import firebase from 'config/firebase';
   import store from 'config/store';
-  import AddResource from 'components/pool/add-resource';
-  import AddSkill from 'components/pool/add-skill';
-  import ResourceFilter from 'components/pool/resource-filter';
-  import ResourceList from 'components/pool/resource-list';
+  import AddResource from 'components/resources/add-resource';
+  import AddSkill from 'components/skills/add-skill';
+  import ResourceFilter from 'components/resources/resource-filter';
+  import ResourceList from 'components/resources/resource-list';
   import AuthGuard from 'components/auth/auth-guard';
-  import { index } from 'components/pool/resource-index';
+  import AddPool from 'components/pools/add-pool';
+  // import { index } from 'components/resources/resource-index';
 
   let resourceRef;
   let skillRef;
@@ -29,39 +31,28 @@
         .database()
         .ref('/resources');
 
-      resourceRef.on('child_added', snapshot => {
-        store.dispatch('ADD_RESOURCE', { resource: snapshot.val() });
-        const res = snapshot.val();
-        const filtered = store.state.pool.skills.filter(skill => res.skills.indexOf(skill.id) >= 0);
-        res.joinedSkills = filtered.map(skill => skill.name).join(' ');
-        index.addDoc(res);
-        index.addDoc(snapshot.val());
-      });
-
-      resourceRef.on('child_changed', snapshot => {
-        store.dispatch('UPDATE_RESOURCE', { resource: snapshot.val() });
-        index.removeDoc(snapshot.val());
-        const res = snapshot.val();
-        const filtered = store.state.pool.skills.filter(skill => res.skills.indexOf(skill.id) >= 0);
-        res.joinedSkills = filtered.map(skill => skill.name).join(' ');
-        index.addDoc(res);
-      });
-
-      resourceRef.on('child_removed', snapshot => {
-        store.dispatch('REMOVE_RESOURCE', { resource: snapshot.val() });
-        index.removeDoc(snapshot.val());
-      });
-
       skillRef = firebase
         .database()
         .ref('/skills');
 
+      resourceRef.on('child_added', snapshot => {
+        store.dispatch('ADD_RESOURCE', { resource: snapshot.val() });
+      });
+
+      resourceRef.on('child_changed', snapshot => {
+        store.dispatch('UPDATE_RESOURCE', { resource: snapshot.val() });
+      });
+
+      resourceRef.on('child_removed', snapshot => {
+        store.dispatch('REMOVE_RESOURCE', { resource: snapshot.val() });
+      });
+
       skillRef.on('child_added', snapshot => {
-        store.dispatch('ADD_SKILL', { skill: snapshot.val() });
+        store.dispatch('SET_SKILL', { skill: snapshot.val() });
       });
 
       skillRef.on('child_changed', snapshot => {
-        store.dispatch('UPDATE_SKILL', { skill: snapshot.val() });
+        store.dispatch('SET_SKILL', { skill: snapshot.val() });
       });
 
       skillRef.on('child_removed', snapshot => {
@@ -80,6 +71,7 @@
       ResourceFilter,
       AuthGuard,
       AddSkill,
+      AddPool,
     },
   };
 </script>

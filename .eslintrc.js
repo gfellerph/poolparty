@@ -16,5 +16,7 @@ module.exports = {
     'no-restricted-syntax': 0,
     // allow debugger during development
     'no-debugger': 0,
+    'no-console': 0,
+    'arrow-body-style': 0,
   }
 }

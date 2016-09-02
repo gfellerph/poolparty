@@ -59,7 +59,7 @@
     vuex: {
       getters: {
         user: state => state.auth.user,
-        skills: state => state.pool.skills,
+        skills: state => state.skills.skills,
       },
     },
   };

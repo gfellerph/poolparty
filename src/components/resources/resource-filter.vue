@@ -22,7 +22,7 @@
 
     vuex: {
       getters: {
-        filter: state => state.pool.filter,
+        filter: state => state.resources.filter,
       },
       actions: {
         setFilter({ dispatch }, value) {
@@ -30,7 +30,7 @@
           if (value === this.filter) return;
 
           // Dispatch with new filter object
-          dispatch('SET_FILTER', {
+          dispatch('SET_RESOURCE_FILTER', {
             filter: value,
           });
         },

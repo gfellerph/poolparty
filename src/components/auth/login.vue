@@ -19,7 +19,7 @@
   import firebase from 'config/firebase';
   import store from 'config/store';
   import User from 'models/user';
-  import Spinner from 'components/atoms/spinner';
+  import Spinner from 'components/common/spinner';
   import AuthGuard from 'components/auth/auth-guard';
 
   export default {
@@ -40,9 +40,11 @@
 
           // Dispatch according to auth state
           if (user) {
+            const loggedinUser = new User(user);
             store.dispatch('LOGIN', {
-              user: new User(user),
+              user: loggedinUser,
             });
+            loggedinUser.set();
           } else {
             store.dispatch('LOGOUT');
           }

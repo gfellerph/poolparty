@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Pool from 'components/pool';
+import Resources from 'components/resources';
 
 Vue.use(Router);
 
@@ -13,7 +13,7 @@ const router = new Router({
 
 // Routes
 export default router.map({
-  '/pool': {
-    component: Pool,
+  '/resources': {
+    component: Resources,
   },
 });

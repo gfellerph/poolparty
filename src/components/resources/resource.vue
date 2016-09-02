@@ -80,7 +80,7 @@
 
     vuex: {
       getters: {
-        skills: state => state.pool.skills,
+        skills: state => Object.keys(state.skills.skills).map(id => state.skills.skills[id]),
       },
       actions: {
         dispatchUpdateResource({ dispatch }) {

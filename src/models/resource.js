@@ -13,7 +13,6 @@ export default class Resource {
   } = {}) {
     this.id = id;
     this.created = created;
-    this.updated = Date.now();
     this.name = name;
     this.website = website;
     this.location = location;

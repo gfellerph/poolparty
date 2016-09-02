@@ -5,8 +5,8 @@
 </template>
 
 <script>
-  import { index, booster } from 'components/pool/resource-index';
-  import ResourceView from 'components/pool/resource';
+  import { index, booster } from 'components/resources/resource-index';
+  import ResourceView from 'components/resources/resource';
   import Resource from 'models/resource';
 
   export default {
@@ -28,8 +28,8 @@
     },
     vuex: {
       getters: {
-        filter: state => state.pool.filter,
-        resources: state => state.pool.resources.map(resource => new Resource(resource)),
+        filter: state => state.resources.filter,
+        resources: state => state.resources.resources.map(resource => new Resource(resource)),
       },
     },
     components: {
