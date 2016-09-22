@@ -16,7 +16,7 @@
 </template>
 
 <script>
-  import firebase from 'config/firebase';
+  import { auth, GoogleProvider } from 'config/firebase';
   import store from 'config/store';
   import User from 'models/user';
   import Spinner from 'components/common/spinner';
@@ -33,8 +33,7 @@
       this.isLoading = true;
 
       // Listen to auth changes at firebase
-      firebase
-        .auth()
+      auth
         .onAuthStateChanged(user => {
           this.isLoading = false;
 
@@ -52,12 +51,10 @@
     },
     methods: {
       login() {
-        const provider = new firebase.auth.GoogleAuthProvider();
         this.isLoading = true;
 
-        firebase
-          .auth()
-          .signInWithPopup(provider)
+        auth
+          .signInWithPopup(GoogleProvider)
           .then(() => {
             this.isLoading = false;
           })
@@ -67,9 +64,7 @@
           });
       },
       logout() {
-        firebase
-          .auth()
-          .signOut();
+        auth.signOut();
       },
     },
     components: {

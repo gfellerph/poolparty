@@ -35,6 +35,7 @@
 
 <script>
   import Resource from 'models/resource';
+  import { database } from 'config/firebase';
 
   export default {
     name: 'add-resource',
@@ -45,21 +46,26 @@
       };
     },
 
+    vuex: {
+      getters: {
+        user: state => state.auth.user,
+        activePool: state => state.resources.activePool,
+      },
+    },
+
+    firebase: {
+      skills: database.ref('/skills'),
+    },
+
     methods: {
       save() {
-        this.resource.user = this.user;
+        this.resource.user = this.user.uid;
+        this.resource.pool = this.activePool.id;
         this.resource.set()
           .catch(err => {
             throw err;
           });
         this.resource = new Resource();
-      },
-    },
-
-    vuex: {
-      getters: {
-        user: state => state.auth.user,
-        skills: state => state.skills.skills,
       },
     },
   };

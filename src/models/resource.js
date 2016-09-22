@@ -8,8 +8,9 @@ export default class Resource {
     name = '',
     website = '',
     location = '',
-    user = null,
+    user = '',
     skills = [],
+    pool = '',
   } = {}) {
     this.id = id;
     this.created = created;
@@ -18,6 +19,7 @@ export default class Resource {
     this.location = location;
     this.user = user;
     this.skills = [...skills];
+    this.pool = pool;
   }
 
   set() {

@@ -1,5 +1,5 @@
 import cuid from 'cuid';
-import firebase from 'config/firebase';
+import { database } from 'config/firebase';
 
 export default class Pool {
   constructor({
@@ -15,15 +15,13 @@ export default class Pool {
   }
 
   set() {
-    return firebase
-      .database()
+    return database
       .ref(`/pools/${this.id}`)
       .set(this);
   }
 
   remove() {
-    return firebase
-      .database()
+    return database
       .ref(`/pools/${this.id}`)
       .remove();
   }

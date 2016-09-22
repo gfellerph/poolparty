@@ -1,20 +1,9 @@
 export default {
   state: {
-    resources: [],
     filter: '',
+    activePool: null,
   },
   mutations: {
-    ADD_RESOURCE: (state, action) => {
-      state.resources.push(action.resource);
-    },
-
-    /* eslint-disable arrow-body-style */
-    UPDATE_RESOURCE: (state, action) => {
-      state.resources = state.resources.map(resource => {
-        return (resource.id === action.resource.id) ? action.resource : resource;
-      });
-    },
-    /* eslint-enable arrow-body-style */
 
     TOGGLE_SKILL: (state, action) => {
       state.resources = state.resources.map(resource => {
@@ -32,16 +21,12 @@ export default {
       });
     },
 
-    REMOVE_RESOURCE: (state, action) => {
-      state.resources = state.resources.filter(resource => resource.id !== action.resource.id);
-    },
-
     SET_RESOURCE_FILTER: (state, action) => {
       state.filter = action.filter;
     },
 
-    CLEAR_RESOURCES: (state) => {
-      state.resources = [];
+    SET_ACTIVE_POOL: (state, action) => {
+      state.activePool = action.activePool;
     },
   },
 };

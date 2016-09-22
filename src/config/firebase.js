@@ -1,3 +1,7 @@
+import firebase from 'firebase';
+import Vue from 'vue';
+import vuefire from 'vuefire';
+
 // Initialize Firebase
 const config = {
   apiKey: 'AIzaSyAsuYnePOSBVFKBJdOF8iEfuHiospa42OQ',
@@ -6,7 +10,12 @@ const config = {
   storageBucket: 'poolparty-ea8fc.appspot.com',
 };
 
-/* global firebase */
+
 firebase.initializeApp(config);
 
+Vue.use(vuefire);
+
 export default firebase;
+export const database = firebase.database();
+export const auth = firebase.auth();
+export const GoogleProvider = new firebase.auth.GoogleAuthProvider();
