@@ -1,5 +1,6 @@
 <template lang="pug">
   div
+    slot(v-if="user")
     slot(name="auth" v-if="user")
     slot(name="no-auth" v-if="!user")
       p Not authenticated
