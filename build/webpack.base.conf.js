@@ -28,6 +28,7 @@ module.exports = {
   },
   externals: {
     'firebase': 'firebase',
+    'emailjs': 'emailjs',
   },
   module: {
     preLoaders: [
