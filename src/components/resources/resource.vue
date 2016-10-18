@@ -1,7 +1,11 @@
 <template lang="pug">
   div
     span(v-if="!edit" @click="toggleEdit") {{resource.name}} {{resource.location}} {{resource.website}} 
-      span [{{skillList}}]
+      span (
+      span(v-for="skill in mappedSkills")
+        span(v-if="$index") , 
+        span {{skill.name}}
+      span )
     form(
       v-if="edit"
       @keydown.enter="updateResource"
@@ -20,7 +24,7 @@
         input(v-model="pResource.website")
 
       ul
-        li(v-for="skill in skills")
+        li(v-for="skill in skillsArray")
           label
             input(
               type="checkbox"
@@ -39,6 +43,7 @@
 <script>
   import Resource from 'models/resource';
   import { focusAuto } from 'vue-focus';
+  import { database } from 'config/firebase';
 
   export default {
     data() {
@@ -58,9 +63,10 @@
     },
 
     computed: {
-      skillList() {
-        const filtered = this.skills.filter(skill => this.resource.skills.indexOf(skill.id) >= 0);
-        return filtered.map(skill => skill.name).join(', ');
+      mappedSkills() {
+        return (this.resource.skills)
+          ? this.resource.skills.map(skillId => this.skills[skillId])
+          : null;
       },
     },
 
@@ -78,10 +84,15 @@
       },
     },
 
-    vuex: {
-      getters: {
-        skills: state => Object.keys(state.skills.skills).map(id => state.skills.skills[id]),
+    firebase: {
+      skills: {
+        source: database.ref('/skills'),
+        asObject: true,
       },
+      skillsArray: database.ref('/skills'),
+    },
+
+    vuex: {
       actions: {
         dispatchUpdateResource({ dispatch }) {
           dispatch('UPDATE_RESOURCE', {
