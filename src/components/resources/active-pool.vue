@@ -49,7 +49,7 @@
     },
 
     firebase: {
-      pools: database.ref('/pools').orderByChild('users'),
+      pools: database.ref('/pools'),
     },
 
     ready() {
