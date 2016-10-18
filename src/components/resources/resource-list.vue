@@ -14,6 +14,7 @@
     vuex: {
       getters: {
         filter: state => state.resources.filter,
+        activePool: state => state.resources.activePool,
       },
     },
 
@@ -24,7 +25,7 @@
       },
     },
 
-    created() {
+    ready() {
       this.$firebaseRefs.resources.on('child_added', snapshot => {
         index.addDoc(snapshot.val());
       });
@@ -49,7 +50,9 @@
           resultSet = index.search(this.filter, booster).map(r => r.ref);
         }
 
-        return resultSet.map(r => this.resources[r]);
+        return resultSet
+          .map(r => this.resources[r])
+          .filter(r => r.pool === this.activePool.id);
       },
     },
 
