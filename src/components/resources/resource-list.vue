@@ -8,6 +8,7 @@
   import { database } from 'config/firebase';
   import { index, booster } from 'components/resources/resource-index';
   import ResourceView from 'components/resources/resource';
+  import Resource from 'models/resource';
 
   export default {
 
@@ -51,7 +52,7 @@
         }
 
         return resultSet
-          .map(r => this.resources[r])
+          .map(r => new Resource(this.resources[r]))
           .filter(r => r.pool === this.activePool.id);
       },
     },
