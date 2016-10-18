@@ -18,5 +18,6 @@ module.exports = {
     'no-debugger': 0,
     'no-console': 0,
     'arrow-body-style': 0,
+    'spaced-comment': 0,
   }
 }
