@@ -19,18 +19,19 @@
   import { database } from 'config/firebase';
   import Pool from 'models/pool';
 
+  function filterPools(pools, uid) {
+    return pools.filter(pool => pool.users.indexOf(uid) >= 0);
+  }
+
   export default {
     computed: {
       userPools() {
-        return this.pools.filter(pool => {
-          return pool.users.filter(userId => userId === this.user.uid).length > 0;
-        });
+        return filterPools(this.pools, this.user.uid);
       },
     },
 
     methods: {
       isActivePool(pool) {
-        console.log(this.activePool && pool.id === this.activePool.id, pool.name);
         return this.activePool && pool.id === this.activePool.id;
       },
     },
@@ -38,6 +39,7 @@
     vuex: {
       getters: {
         user: state => state.auth.user,
+        activePool: state => state.resources.activePool,
       },
       actions: {
         setActivePool({ dispatch }, e) {
@@ -47,15 +49,16 @@
     },
 
     firebase: {
-      pools: database.ref('/pools'),
+      pools: database.ref('/pools').orderByChild('users'),
     },
 
-    created() {
-      const poolValue = this.$firebaseRefs.pools.on('child_added', snapshot => {
-        const pool = snapshot.val();
-        if (!this.activePool && pool.users.indexOf(this.user.uid) >= 0) {
-          this.setActivePool(new Pool(pool));
-          this.$firebaseRefs.pools.off('child_added', poolValue);
+    ready() {
+      this.$firebaseRefs.pools.once('value', snapshot => {
+        const val = snapshot.val();
+        const poolArr = Object.keys(val).map(poolId => val[poolId]);
+        const pools = filterPools(poolArr, this.user.uid);
+        if (!this.activePool) {
+          this.setActivePool(new Pool(pools[0]));
         }
       });
     },
