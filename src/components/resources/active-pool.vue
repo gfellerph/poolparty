@@ -3,7 +3,7 @@
     h3 Active pool:
     ul
       li(v-for="pool in userPools")
-        label(for="{{pool.id}}")
+        label(:for="pool.id")
           input(
             :id="pool.id"
             type="radio"
@@ -52,7 +52,7 @@
       pools: database.ref('/pools'),
     },
 
-    ready() {
+    mounted() {
       this.$firebaseRefs.pools.once('value', snapshot => {
         const val = snapshot.val();
         const poolArr = Object.keys(val).map(poolId => val[poolId]);

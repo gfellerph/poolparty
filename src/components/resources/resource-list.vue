@@ -26,7 +26,7 @@
       },
     },
 
-    ready() {
+    mounted() {
       this.$firebaseRefs.resources.on('child_added', snapshot => {
         index.addDoc(snapshot.val());
       });

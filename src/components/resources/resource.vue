@@ -2,8 +2,8 @@
   div
     span(v-if="!edit" @click="toggleEdit") {{resource.name}} {{resource.location}} {{resource.website}} 
       span (
-      span(v-for="skill in mappedSkills")
-        span(v-if="$index") , 
+      span(v-for="skill, index in mappedSkills")
+        span(v-if="index") , 
         span {{skill.name}}
       span )
     form(

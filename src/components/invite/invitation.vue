@@ -41,12 +41,12 @@
         this.pool.users.push(this.user.uid);
         new Pool(this.pool).set();
         new Invite(this.invite).remove();
-        router.go('/resources');
+        router.push('/resources');
       },
 
       declineInvitation() {
         new Invite(this.invite).remove();
-        router.go('/');
+        router.push('/');
       },
     },
 

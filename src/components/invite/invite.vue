@@ -10,15 +10,15 @@
       )
       span  to
       ul
-        li(v-for="pool in userPools")
-          label(for="{{pool.id}}")
+        li(v-for="pool, index in userPools")
+          label(:for="pool.id")
             input(
-              v-bind:checked="$index===0"
+              v-bind:checked="index===0"
               v-bind:id="pool.id"
               type="radio"
               name="invite-pools"
               v-model="invite.pool"
-              value="{{pool.id}}"
+              v-bind:value="pool.id"
             )
             span {{pool.name}}
       button(
