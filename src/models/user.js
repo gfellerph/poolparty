@@ -11,6 +11,14 @@ export default class User {
     this.refreshToken = user.refreshToken || null;
   }
 
+  get secureUserInfo() {
+    return {
+      uid: this.uid,
+      displayName: this.displayName,
+      photoURL: this.photoURL,
+    };
+  }
+
   set() {
     return firebase
       .database()

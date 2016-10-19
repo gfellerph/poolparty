@@ -3,7 +3,7 @@
     auth-guard
 
       div(slot="auth")
-        p Hoi {{user.displayName}}
+        p Hoi {{user.displayName}} ({{user.email}})
         p
           img(v-bind:src="user.photoURL")
         button(@click="logout") logout
@@ -11,7 +11,7 @@
       div(slot="no-auth")
         p Login with google
         spinner(v-if="isLoading")
-        button(@click="login") login
+        button(@click="login") login with google
         p.error(v-if="err") {{err}}
 </template>
 

@@ -58,9 +58,7 @@
       resource: Object,
     },
 
-    directives: {
-      focusAuto,
-    },
+    directives: { focusAuto },
 
     computed: {
       mappedSkills() {

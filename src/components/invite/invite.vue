@@ -52,12 +52,15 @@
 
     methods: {
       sendInvitation() {
-        this.invite.user = this.user;
+        this.invite.user = this.user.secureUserInfo;
         this.invite.created = Date.now();
 
-        this.invite.set()
+        emailjs.send('gmail', 'template_sBAeXYDM', Object.assign({}, this.invite))
           .then(() => {
-            emailjs.send('gmail', 'template_sBAeXYDM', Object.assign({}, this.invite));
+            this.invite.invitee = '';
+            return this.invite.set();
+          })
+          .then(() => {
             this.invite = new Invite();
           });
       },
