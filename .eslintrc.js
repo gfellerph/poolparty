@@ -19,5 +19,9 @@ module.exports = {
     'no-console': 0,
     'arrow-body-style': 0,
     'spaced-comment': 0,
+    'linebreak-style': 0,
+    'import/no-extraneous-dependencies': 0,
+    'import/extensions': 0,
+    'no-prototype-builtins': 0,
   }
 }

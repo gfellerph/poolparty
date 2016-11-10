@@ -13,7 +13,7 @@
     )
       p
         label Name
-        input(v-model="pResource.name" v-focus-auto)
+        input(v-model="pResource.name")
 
       p
         label Location
@@ -42,7 +42,6 @@
 
 <script>
   import Resource from 'models/resource';
-  import { focusAuto } from 'vue-focus';
   import { database } from 'config/firebase';
 
   export default {
@@ -57,8 +56,6 @@
     props: {
       resource: Object,
     },
-
-    directives: { focusAuto },
 
     computed: {
       mappedSkills() {
@@ -78,7 +75,7 @@
           .then(() => {
             this.toggleEdit();
           })
-          .catch(err => { throw err; });
+          .catch((err) => { throw err; });
       },
     },
 

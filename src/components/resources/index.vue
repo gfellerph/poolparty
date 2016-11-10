@@ -18,7 +18,7 @@
   import ResourceList from 'components/resources/resource-list';
   import AuthGuard from 'components/auth/auth-guard';
   import AddPool from 'components/pools/add-pool';
-  import ActivePool from 'components/resources/active-pool';
+  import ActivePool from 'components/pools/active-pool';
 
   export default {
     name: 'resource-pool',

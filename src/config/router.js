@@ -11,19 +11,19 @@ const router = new Router({
   base: '/',
   linkActiveClass: 'active',
   routes: [
-      {
-        path: '/resources',
-        component: Resources,
-      },
-      {
-        path: '/invite',
-        component: Invite,
-      },
-      {
-        path: '/invite/:id',
-        component: Invitation,
-      },
-  ]
+    {
+      path: '/resources',
+      component: Resources,
+    },
+    {
+      path: '/invite',
+      component: Invite,
+    },
+    {
+      path: '/invite/:id',
+      component: Invitation,
+    },
+  ],
 });
 
 export default router;

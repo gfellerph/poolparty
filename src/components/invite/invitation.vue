@@ -32,7 +32,7 @@
 
     computed: {
       loading() {
-        return !(this.invite && this.pool || this.err);
+        return !((this.invite && this.pool) || this.err);
       },
     },
 
@@ -53,7 +53,7 @@
     created() {
       const inviteRef = database.ref(`/invites/${this.$route.params.id}`);
       this.$bindAsObject('invite', inviteRef);
-      inviteRef.once('value', snapshot => {
+      inviteRef.once('value', (snapshot) => {
         const val = snapshot.val();
         if (val) {
           this.$bindAsObject('pool', database.ref(`/pools/${snapshot.val().pool}`));

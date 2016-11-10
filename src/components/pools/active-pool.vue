@@ -18,6 +18,7 @@
 <script>
   import { database } from 'config/firebase';
   import Pool from 'models/pool';
+  import { mapActions } from 'vuex';
 
   function filterPools(pools, uid) {
     return pools.filter(pool => pool.users.indexOf(uid) >= 0);
@@ -28,6 +29,8 @@
       userPools() {
         return filterPools(this.pools, this.user.uid);
       },
+      user() { return this.$store.state.auth.user; },
+      activePool() { return this.$store.state.resources.activeState; },
     },
 
     methods: {
@@ -36,25 +39,14 @@
       },
     },
 
-    vuex: {
-      getters: {
-        user: state => state.auth.user,
-        activePool: state => state.resources.activePool,
-      },
-      actions: {
-        setActivePool({ dispatch }, e) {
-          dispatch('SET_ACTIVE_POOL', { activePool: e });
-        },
-      },
-    },
-
     firebase: {
       pools: database.ref('/pools'),
     },
 
     mounted() {
-      this.$firebaseRefs.pools.once('value', snapshot => {
+      this.$firebaseRefs.pools.once('value', (snapshot) => {
         const val = snapshot.val();
+        if (!val) return;
         const poolArr = Object.keys(val).map(poolId => val[poolId]);
         const pools = filterPools(poolArr, this.user.uid);
         if (!this.activePool) {

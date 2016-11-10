@@ -3,19 +3,13 @@ import { database } from 'config/firebase';
 import { APP_ROOT } from 'config/constants';
 
 export default class Invite {
-  constructor({
-    id = cuid(),
-    created = Date.now(),
-    pool = '',
-    invitee = '',
-    user = '',
-  } = {}) {
-    this.id = id;
-    this.created = created;
-    this.pool = pool;
-    this.invitee = invitee;
-    this.user = user;
-    this.inviteURL = `${APP_ROOT}/#/invite/${id}`;
+  constructor(props = {}) {
+    this.id = props.id || cuid();
+    this.created = props.created || Date.now();
+    this.pool = props.pool || '';
+    this.invitee = props.invitee || '';
+    this.user = props.user || '';
+    this.inviteURL = `${APP_ROOT}/#/invite/${this.id}`;
   }
 
   set() {

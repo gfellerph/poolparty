@@ -7,6 +7,8 @@
 </template>
 
 <script>
+  import { mapActions } from 'vuex';
+
   export default {
     computed: {
       cFilter: {
@@ -18,23 +20,11 @@
           this.setFilter(value);
         },
       },
+      filter() { return this.$store.state.resources.filter; },
     },
 
-    vuex: {
-      getters: {
-        filter: state => state.resources.filter,
-      },
-      actions: {
-        setFilter({ dispatch }, value) {
-          // Don't dispatch if filter is the same
-          if (value === this.filter) return;
-
-          // Dispatch with new filter object
-          dispatch('SET_RESOURCE_FILTER', {
-            filter: value,
-          });
-        },
-      },
+    methods: {
+      ...mapActions(['setFilter']),
     },
   };
 </script>
