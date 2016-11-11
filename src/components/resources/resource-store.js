@@ -39,8 +39,8 @@ export default {
         filter: payload,
       });
     },
-    setActivePool({ dispatch }, e) {
-      dispatch('SET_ACTIVE_POOL', { activePool: e });
+    setActivePool({ commit }, payload) {
+      commit('SET_ACTIVE_POOL', { activePool: payload });
     },
   },
 };

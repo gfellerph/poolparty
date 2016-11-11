@@ -14,7 +14,6 @@
     computed: {
       filteredResources() {
         let resultSet;
-
         if (!this.filter) {
           delete this.resources['.key'];
           delete this.resources['.value'];

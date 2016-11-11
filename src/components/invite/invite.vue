@@ -45,7 +45,7 @@
       userPools() {
         return this.pools.filter(pool => pool.users.indexOf(this.user.uid) >= 0);
       },
-      user() { return this.$store.state.authentication.user; },
+      user() { return this.$store.state.auth.user; },
     },
 
     methods: {
