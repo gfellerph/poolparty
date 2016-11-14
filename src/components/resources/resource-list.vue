@@ -1,7 +1,8 @@
 <template lang="pug">
-  ul.resources
-    li(v-for="resource in filteredResources")
-      resource-view(v-bind:resource="resource")
+  div.resources
+    transition-group(name="resources" tag="div")
+      div.resource-li(v-for="resource in filteredResources" v-bind:key="resource.id")
+        resource-view(v-bind:resource="resource")
 </template>
 
 <script>
@@ -60,3 +61,30 @@
     },
   };
 </script>
+
+<style lang="scss">
+  .resource-li {
+    margin: 1rem 0;
+    padding: 1.5rem;
+    border: 3px solid red;
+    box-shadow: 3px 3px 0 0 blue;
+  }
+
+  .resources-enter-active {
+    transition: all 2s;
+  }
+  .resources-enter {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  .resources-move {
+    transition: transform 500ms;
+  }
+  .resources-leave {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  .resources-leave-active {
+    transition: all 2s;
+  }
+</style>

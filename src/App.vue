@@ -16,3 +16,14 @@
     },
   };
 </script>
+
+<style lang="scss">
+  html {
+    font-size: 10px;
+  }
+
+  body {
+    font-size: 15px;
+    font-family: Droid Serif;
+  }
+</style>

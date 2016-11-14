@@ -2,7 +2,7 @@
   div
     label Filter resources
     input(
-      v-model="cFilter"
+      v-model="filter"
     )
 </template>
 
@@ -11,16 +11,15 @@
 
   export default {
     computed: {
-      cFilter: {
+      filter: {
         get() {
-          return this.filter;
+          return this.$store.state.resources.filter;
         },
 
         set(value) {
           this.setFilter(value);
         },
       },
-      filter() { return this.$store.state.resources.filter; },
     },
 
     methods: {
