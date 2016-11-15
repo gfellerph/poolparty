@@ -32,7 +32,7 @@
 
     computed: {
       loading() {
-        return !(this.invite && this.pool || this.err);
+        return !((this.invite && this.pool) || this.err);
       },
     },
 
@@ -41,19 +41,19 @@
         this.pool.users.push(this.user.uid);
         new Pool(this.pool).set();
         new Invite(this.invite).remove();
-        router.go('/resources');
+        router.push('/resources');
       },
 
       declineInvitation() {
         new Invite(this.invite).remove();
-        router.go('/');
+        router.push('/');
       },
     },
 
     created() {
       const inviteRef = database.ref(`/invites/${this.$route.params.id}`);
       this.$bindAsObject('invite', inviteRef);
-      inviteRef.once('value', snapshot => {
+      inviteRef.once('value', (snapshot) => {
         const val = snapshot.val();
         if (val) {
           this.$bindAsObject('pool', database.ref(`/pools/${snapshot.val().pool}`));

@@ -1,7 +1,7 @@
 import firebase from 'config/firebase';
 
 export default class User {
-  constructor(user) {
+  constructor(user = {}) {
     this.uid = user.uid || null;
     this.displayName = user.displayName || '';
     this.email = user.email || '';

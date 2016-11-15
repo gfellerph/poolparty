@@ -8,28 +8,28 @@
       )
 
     ul
-      li(v-for="user in users")
+      li(v-for="user in userList")
         label
           input(
             type="checkbox"
-            v-bind:value="user.uid"
-            v-model="pool.users"
+            @change="pool.toggleUser(user.uid)"
           )
           img(v-bind:src="user.photoURL" v-bind:alt="user.displayName")
           span {{user.displayName}} ({{user.email}})
 
     h4 Pools
     p(v-for="pool in pools") {{pool.name}}
-      img(v-for="user in pool.users" v-bind:src="getUserImg(user)" style="width:24px;height:24px")
+      img(v-for="(user, key) in pool.users" v-bind:src="getUserImg(key)" style="width:24px;height:24px")
       a(@click="deletePool(pool)") delete
     p
       button(
-        @click="addPool"
+        @click.prevent="addPool"
       ) Save pool
 
 </template>
 
 <script>
+  import Vue from 'vue';
   import Pool from 'models/pool';
   import { database } from 'config/firebase';
 
@@ -40,15 +40,24 @@
       };
     },
 
+    computed: {
+      userList() {
+        Vue.delete(this.users, '.key');
+        return this.users;
+      },
+    },
+
     firebase: {
-      users: database.ref('/users'),
+      users: {
+        source: database.ref('/users'),
+        asObject: true,
+      },
       pools: database.ref('/pools'),
     },
 
     methods: {
       getUserImg(userId) {
-        const targetUser = this.users.filter(user => user.uid === userId)[0];
-        return targetUser ? targetUser.photoURL : '';
+        return this.users[userId] ? this.users[userId].photoURL : '';
       },
       addPool() {
         this.pool.set();

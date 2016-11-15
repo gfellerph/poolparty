@@ -2,11 +2,11 @@
   nav
     ul
       li
-        a(v-link="{path: '/', exact: true}") Home
+        router-link(to="/" exact) Home
       li
-        a(v-link="{path: '/resources'}") Resource Pool
+        router-link(to="/resources") Resource Pool
       li
-        a(v-link="{path: '/invite'}") Invite friend
+        router-link(to="/invite") Invite friend
 </template>
 
 <style lang="scss">

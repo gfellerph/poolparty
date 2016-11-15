@@ -24,7 +24,7 @@
     methods: {
       saveSkill() {
         this.skill.set()
-          .catch(err => { throw err; });
+          .catch((err) => { throw err; });
 
         this.skill = new Skill();
       },

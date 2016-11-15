@@ -1,17 +1,17 @@
 <template lang="pug">
   div
-    slot(v-if="user")
-    slot(name="auth" v-if="user")
-    slot(name="no-auth" v-if="!user")
+    slot(v-if="authenticated")
+    slot(name="auth" v-if="authenticated")
+    slot(name="no-auth" v-if="!authenticated")
       p Not authenticated
 </template>
 
 <script>
+  import { mapState } from 'vuex';
+
   export default {
-    vuex: {
-      getters: {
-        user: state => state.auth.user,
-      },
-    },
+    computed: mapState({
+      authenticated: state => state.auth.authenticated,
+    }),
   };
 </script>

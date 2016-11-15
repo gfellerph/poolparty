@@ -46,11 +46,9 @@
       };
     },
 
-    vuex: {
-      getters: {
-        user: state => state.auth.user,
-        activePool: state => state.resources.activePool,
-      },
+    computed: {
+      user() { return this.$store.state.auth.user; },
+      activePool() { return this.$store.state.resources.activePool; },
     },
 
     firebase: {
@@ -60,9 +58,11 @@
     methods: {
       save() {
         this.resource.user = this.user.uid;
-        this.resource.pool = this.activePool.id;
+        this.resource.pool = this.activePool
+          ? this.activePool.id
+          : null;
         this.resource.set()
-          .catch(err => {
+          .catch((err) => {
             throw err;
           });
         this.resource = new Resource();

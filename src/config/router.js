@@ -8,20 +8,22 @@ Vue.use(Router);
 
 // Router options
 const router = new Router({
-  hashbang: false,
-  root: '/',
+  base: '/',
   linkActiveClass: 'active',
+  routes: [
+    {
+      path: '/resources',
+      component: Resources,
+    },
+    {
+      path: '/invite',
+      component: Invite,
+    },
+    {
+      path: '/invite/:id',
+      component: Invitation,
+    },
+  ],
 });
 
-// Routes
-export default router.map({
-  '/resources': {
-    component: Resources,
-  },
-  '/invite': {
-    component: Invite,
-  },
-  '/invite/:id': {
-    component: Invitation,
-  },
-});
+export default router;

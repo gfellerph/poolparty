@@ -1,19 +1,19 @@
 <template lang="pug">
-  div
+  div.resource
     span(v-if="!edit" @click="toggleEdit") {{resource.name}} {{resource.location}} {{resource.website}} 
       span (
-      span(v-for="skill in mappedSkills")
-        span(v-if="$index") , 
+      span(v-for="skill, index in mappedSkills")
+        span(v-if="index") , 
         span {{skill.name}}
       span )
     form(
       v-if="edit"
-      @keydown.enter="updateResource"
-      @keydown.esc="toggleEdit"
+      @keydown.enter.prevent="updateResource"
+      @keydown.esc.prevent="toggleEdit"
     )
       p
         label Name
-        input(v-model="pResource.name" v-focus-auto)
+        input(v-model="pResource.name")
 
       p
         label Location
@@ -36,13 +36,12 @@
       p.error(v-for="error in errors") {{error}}
       
       p
-        button(@click="toggleEdit") Cancel
-        button(@click="updateResource") Save
+        button(@click.prevent="toggleEdit") Cancel
+        button(@click.prevent="updateResource") Save
 </template>
 
 <script>
   import Resource from 'models/resource';
-  import { focusAuto } from 'vue-focus';
   import { database } from 'config/firebase';
 
   export default {
@@ -57,8 +56,6 @@
     props: {
       resource: Object,
     },
-
-    directives: { focusAuto },
 
     computed: {
       mappedSkills() {
@@ -78,7 +75,7 @@
           .then(() => {
             this.toggleEdit();
           })
-          .catch(err => { throw err; });
+          .catch((err) => { throw err; });
       },
     },
 

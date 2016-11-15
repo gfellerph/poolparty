@@ -1,7 +1,6 @@
 <template lang="pug">
   div
     auth-guard
-
       div(slot="auth")
         p Hoi {{user.displayName}} ({{user.email}})
         p
@@ -18,9 +17,9 @@
 <script>
   import { auth, GoogleProvider } from 'config/firebase';
   import store from 'config/store';
-  import User from 'models/user';
   import Spinner from 'components/common/spinner';
   import AuthGuard from 'components/auth/auth-guard';
+  import { mapState } from 'vuex';
 
   export default {
     data() {
@@ -29,26 +28,11 @@
         isLoading: false,
       };
     },
-    created() {
-      this.isLoading = true;
 
-      // Listen to auth changes at firebase
-      auth
-        .onAuthStateChanged(user => {
-          this.isLoading = false;
+    computed: mapState({
+      user: state => state.auth.user,
+    }),
 
-          // Dispatch according to auth state
-          if (user) {
-            const loggedinUser = new User(user);
-            store.dispatch('LOGIN', {
-              user: loggedinUser,
-            });
-            loggedinUser.set();
-          } else {
-            store.dispatch('LOGOUT');
-          }
-        });
-    },
     methods: {
       login() {
         this.isLoading = true;
@@ -58,7 +42,7 @@
           .then(() => {
             this.isLoading = false;
           })
-          .catch(err => {
+          .catch((err) => {
             this.isLoading = false;
             this.err = err;
           });
@@ -67,14 +51,30 @@
         auth.signOut();
       },
     },
+
+    created() {
+      this.isLoading = true;
+
+      // Listen to auth changes at firebase
+      auth
+        .onAuthStateChanged((user) => {
+          this.isLoading = false;
+
+          // Dispatch according to auth state
+          if (user) {
+            store.commit('LOGIN', {
+              user,
+            });
+            user.set();
+          } else {
+            store.commit('LOGOUT');
+          }
+        });
+    },
+
     components: {
       Spinner,
       AuthGuard,
-    },
-    vuex: {
-      getters: {
-        user: state => state.auth.user,
-      },
     },
   };
 </script>

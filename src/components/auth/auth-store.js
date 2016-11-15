@@ -1,17 +1,19 @@
+import User from 'models/user';
+
 export default {
   state: {
-    loggedIn: false,
-    user: null,
+    authenticated: false,
+    user: new User(),
   },
   mutations: {
-    LOGIN: (state, action) => {
-      state.loggedIn = true;
-      state.user = action.user;
+    LOGIN(state, action) {
+      state.authenticated = true;
+      state.user = new User(action.user);
     },
 
-    LOGOUT: (state) => {
-      state.loggedIn = false;
-      state.user = null;
+    LOGOUT(state) {
+      state.authenticated = false;
+      state.user = new User();
     },
   },
 };

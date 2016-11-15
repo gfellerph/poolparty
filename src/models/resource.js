@@ -2,24 +2,16 @@ import cuid from 'cuid';
 import firebase from 'config/firebase';
 
 export default class Resource {
-  constructor({
-    id = cuid(),
-    created = Date.now(),
-    name = '',
-    website = '',
-    location = '',
-    user = '',
-    skills = [],
-    pool = '',
-  } = {}) {
-    this.id = id;
-    this.created = created;
-    this.name = name;
-    this.website = website;
-    this.location = location;
-    this.user = user;
-    this.skills = [...skills];
-    this.pool = pool;
+  constructor(props = {}) {
+    if (!props) props = {};
+    this.id = props.id || cuid();
+    this.created = props.created || Date.now();
+    this.name = props.name || '';
+    this.website = props.website || '';
+    this.location = props.location || '';
+    this.user = props.user || '';
+    this.skills = props.skills || [];
+    this.pool = props.pool || '';
   }
 
   set() {
